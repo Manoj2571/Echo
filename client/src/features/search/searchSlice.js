@@ -3,7 +3,7 @@ import axios from "axios";
 import { getSocket } from "../../utils/socket";
 
 export const fetchPosts = createAsyncThunk("/posts/fetchPosts", async () => {
-  const response = await axios.get("http://localhost:8000/api/posts");
+  const response = await axios.get("https://echo-eta-eight.vercel.app/api/posts");
   return response.data;
 });
 

@@ -2,16 +2,17 @@ import Post from "../../features/posts/Post";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { loggedInUser } from "../alert/Alert";
+
 
 
 const SearchResults = () => {
   const tagsArray = ["Top", "Latest", "People", "Media"];
 
-  const { posts, status } = useSelector((state) => state.posts);
-  const { users } = useSelector(
+  const { posts, postsStatus } = useSelector((state) => state.posts);
+  const { users, usersStatus, loggedInUser } = useSelector(
     (state) => state.users
   );
+
 
   const {searchTerm} = useSelector((state) => state.search)
 
@@ -41,15 +42,13 @@ const SearchResults = () => {
   );
 
   const media = filteredLatestPosts
-    .filter((post) => post.media != null)
+    .filter((post) => post.media != null && post.author._id != loggedInUser._id)
     .map((post) => post.media);
 
   const filteredPeople = users
     .filter(
       (user) =>
         user.userName
-          .split(" ")
-          .join("")
           .toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
         user.fullName
@@ -58,12 +57,9 @@ const SearchResults = () => {
           .toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
         user.email
-          .split(" ")
-          .join("")
           .toLowerCase()
           .includes(searchTerm.toLowerCase())
-    )
-    .filter((user) => user._id != loggedInUser._id);
+    ).filter((user) => user._id != loggedInUser._id);
 
   return (
     <div className="">
@@ -84,7 +80,7 @@ const SearchResults = () => {
           </button>
         ))}
       </div>
-      {status == "loading" && <p>Loading...</p>}
+      {(usersStatus == "loading" || postsStatus == "loading") && <p>Loading...</p>}
       {selectedTag == "Top" && (
         <>
           {filteredTopPosts.length != 0 ? (

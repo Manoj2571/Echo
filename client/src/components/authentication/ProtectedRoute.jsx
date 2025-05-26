@@ -19,7 +19,7 @@ const ProtectedRoute = ({ children }) => {
       if (!isUserLoggedIn) {
         if(token) {
             try {
-          const response = await axios.get("http://localhost:8000/auth/me", {
+          const response = await axios.get("https://echo-eta-eight.vercel.app/auth/me", {
             headers: {
                 Authorization: `Bearer ${token}`
             }

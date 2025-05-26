@@ -4,7 +4,7 @@ import { getSocket } from "../../utils/socket";
 import toast from "react-hot-toast";
 
 export const fetchPosts = createAsyncThunk("/posts/fetchPosts", async () => {
-  const response = await axios.get("http://localhost:8000/api/posts");
+  const response = await axios.get("https://echo-eta-eight.vercel.app/api/posts");
   return response.data;
 });
 
@@ -89,7 +89,7 @@ export const addNewPostAsync = createAsyncThunk(
       const { loggedInUser } = thunkAPI.getState().users;
 
       const response = await axios.post(
-        "http://localhost:8000/api/user/post",
+        "https://echo-eta-eight.vercel.app/api/user/post",
         formData,
         {
           headers: {
@@ -134,7 +134,7 @@ export const addNewPostAsync = createAsyncThunk(
 export const deletePostAsync = createAsyncThunk("/tasks/deletePost", async (postData,thunkAPI) => {
     const {postId} = postData
     try {
-        const response = await axios.delete(`http://localhost:8000/api/user/posts/${postId}`)
+        const response = await axios.delete(`https://echo-eta-eight.vercel.app/api/user/posts/${postId}`)
 
         toast.success(response.data?.message)
         thunkAPI.dispatch(deletePost(postId))
@@ -146,7 +146,7 @@ export const deletePostAsync = createAsyncThunk("/tasks/deletePost", async (post
 export const updatePostContentAsync = createAsyncThunk("/posts/updatePost", async (post, thunkAPI) => {
     const {postId, postData} = post
     try {
-        const response = await axios.post(`http://localhost:8000/api/posts/edit/${postId}`, postData)
+        const response = await axios.post(`https://echo-eta-eight.vercel.app/api/posts/edit/${postId}`, postData)
 
         thunkAPI.dispatch(updatePostContent(response.data?.post))
         toast.success(response.data?.message)
@@ -168,7 +168,7 @@ export const updatePostLikesAsync = (post, user) => async (dispatch) => {
         : { likes: post.likes.filter((like) => like != user._id) };
 
     const response = await fetch(
-      `http://localhost:8000/api/posts/edit/${post._id}`,
+      `https://echo-eta-eight.vercel.app/api/posts/edit/${post._id}`,
       {
         method: "POST",
         headers: {
@@ -205,7 +205,7 @@ export const addCommentAsync = (post, comment) => async (dispatch) => {
   try {
     const updatedComments = { comments: [...post.comments, comment] };
     const response = await fetch(
-      `http://localhost:8000/api/posts/edit/${post._id}`,
+      `https://echo-eta-eight.vercel.app/api/posts/edit/${post._id}`,
       {
         method: "POST",
         headers: {

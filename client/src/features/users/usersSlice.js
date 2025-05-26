@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { fetchPosts } from "../posts/postsSlice";
 
 export const fetchUsers = createAsyncThunk("/users/fetchUsers", async () => {
-  const response = await axios.get("http://localhost:8000/api/users");
+  const response = await axios.get("https://echo-eta-eight.vercel.app/api/users");
   return response.data;
 });
 
@@ -80,7 +80,7 @@ export const {
 
 export const loginUserAsync = createAsyncThunk("/users/loginUser", async (userData, thunkAPI) => {
     try {
-        const response = await axios.post("http://localhost:8000/auth/login", userData)
+        const response = await axios.post("https://echo-eta-eight.vercel.app/auth/login", userData)
 
             localStorage.setItem("authToken", response.data.token)
              await Promise.all([
@@ -96,7 +96,7 @@ export const loginUserAsync = createAsyncThunk("/users/loginUser", async (userDa
 
 export const signupUserAsync = createAsyncThunk("/users/signupUser", async (newUserData, thunkAPI) => {
     try {
-        const response = await axios.post("http://localhost:8000/auth/signup", newUserData)
+        const response = await axios.post("https://echo-eta-eight.vercel.app/auth/signup", newUserData)
 
         thunkAPI.dispatch(addNewUser(response.data?.user))
         toast.success("Account created successfully. Please log in to continue.")
@@ -110,7 +110,7 @@ export const addUserAsync = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/users/addUser",
+        "https://echo-eta-eight.vercel.app/api/users/addUser",
         userData,
         {
           headers: {
@@ -144,7 +144,7 @@ export const updateBookmarksAsync = (post, user) => async (dispatch) => {
             ),
           };
     const response = await fetch(
-      `http://localhost:8000/api/users/edit/${user._id}`,
+      `https://echo-eta-eight.vercel.app/api/users/edit/${user._id}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -194,7 +194,7 @@ export const updateFollowingAsync =
             };
 
       const response = await fetch(
-        `http://localhost:8000/api/users/edit/${loggedInUser._id}`,
+        `https://echo-eta-eight.vercel.app/api/users/edit/${loggedInUser._id}`,
         {
           method: "POST",
           headers: {
@@ -232,7 +232,7 @@ export const updateFollowersAsync =
             };
 
       const response = await fetch(
-        `http://localhost:8000/api/users/edit/${followingUser._id}`,
+        `https://echo-eta-eight.vercel.app/api/users/edit/${followingUser._id}`,
         {
           method: "POST",
           headers: {
@@ -259,7 +259,7 @@ export const updateUserDataAsync = createAsyncThunk(
     const { loggedInUser } = thunkAPI.getState().users;
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/users/updateUser/${loggedInUser._id}`,
+        `https://echo-eta-eight.vercel.app/api/users/updateUser/${loggedInUser._id}`,
         formData,
         {
           headers: {
