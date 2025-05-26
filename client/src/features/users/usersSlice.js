@@ -139,7 +139,7 @@ export const updateBookmarksAsync = (post, user) => async (dispatch) => {
             authorId: post.author._id,
             post: post,
             user,
-            action: "bookmark",
+            action: "bookmarked",
           });
         }
       dispatch(updateBookmarks(data.updatedUser));

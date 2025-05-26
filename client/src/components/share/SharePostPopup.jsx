@@ -108,12 +108,14 @@ const SharePostPopup = ({ setShareClick, post }) => {
               <div style={{ paddingInlineEnd: "18px" }}>
                 <p className="truncated">{post.content}</p>
                 {post.media && (
-                  <img
-                    src={post.media}
-                    width="40%"
-                    height="40%"
-                    className="mb-3"
-                  />
+                  <div className="square-box position-relative overflow-hidden pb-3">
+        <img
+          src={post.media}
+          alt="Post"
+          className="w-100 h-100"
+          style={{ objectFit: 'cover' }}
+        />
+      </div>
                 )}
               </div>
             </div>

@@ -14,18 +14,18 @@ const Alert = () => {
     }, 2900);
   }
 
+  if(alertMessage){console.log(alertMessage.action)}
+
   return (
     <>
       {alertMessage && (
         <div className="alert_popup">
-          {alertMessage.user.fullName} {alertMessage.action}
-          {alertMessage.action == "comment" || "bookmark"
-            ? "ed"
-            : "d"} your{" "}
+          {alertMessage.user.fullName}&nbsp;
+          {alertMessage.action} your{" "}
           {alertMessage.post.parentPostComment ? "Comment" : "Post"} &nbsp;
           <button
-            className="text-white primary-bg ms-auto px-4 py-1 border-0"
-            onClick={() => navigate(`/postDetail/${alertMessage.post._id}`)}
+            className="text-white primary-bg ms-auto px-2 py-1 border-0 me-2"
+            onClick={() => navigate(`/posts/${alertMessage.post._id}`)}
           >
             View {alertMessage.post.parentPostComment ? "Comment" : "Post"}
           </button>

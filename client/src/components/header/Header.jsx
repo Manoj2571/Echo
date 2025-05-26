@@ -1,7 +1,7 @@
-
+import useSocketListener from "../../hooks/useSocketListener";
 
 const Header = () => {
-//   useSocketListener();
+ useSocketListener();
 
   return (
     <nav className="bg-white">

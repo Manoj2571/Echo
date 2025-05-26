@@ -4,7 +4,7 @@ let socket;
 
 export const initSocket = (user) => {
   if (!socket) {
-    socket = io("https://echo-eta-eight.vercel.app/", {
+    socket = io("https://echosocketserver-production.up.railway.app", {
       auth: { userId: user._id },
     });
 

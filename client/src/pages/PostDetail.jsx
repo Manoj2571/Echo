@@ -8,10 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import CommentPopup from "../components/comment/CommentPopup";
 import { updateBookmarksAsync } from "../features/users/usersSlice";
-import { updateAuthorBookmarkColorCode,updatePostLikesAsync, updateAuthorLikeColorCode, addNewPostAsync } from "../features/posts/postsSlice";
+import { updatePostLikesAsync, addNewPostAsync } from "../features/posts/postsSlice";
 import Post from "../features/posts/Post";
 import SharePostPopup from "../components/share/SharePostPopup";
-import toast from "react-hot-toast";
 
 const PostDetail = () => {
   const { postId } = useParams();
@@ -21,10 +20,10 @@ const PostDetail = () => {
   const [commentClick, setCommentClick] = useState(false);
   const [shareClick, setShareClick] = useState(false);
 
-  const { posts, authorLikeColorCode, authorBookmarkColorCode } = useSelector(
+  const { posts } = useSelector(
     (state) => state.posts
   );
-  const { loggedInUser } = useSelector((state) => state.users);
+  const { loggedInUser, users } = useSelector((state) => state.users);
 
   const [comment, setComment] = useState({
     parentPostComment: postId,
@@ -35,40 +34,19 @@ const PostDetail = () => {
 
   const currentPost = posts.find((post) => post._id == postId);
 
-  // const comments = posts.filter(
-  //   (post) => post.parentPostComment == currentPost._id
-  // );
 
   const comments = posts
     ?.filter((comment) => comment.parentPostComment == currentPost._id)
     .map((comment) => <div className="border-top" key={comment._id}><Post post={comment} /></div>);
 
   //Does the loggedInUser liked particular post
-  const userIndex = currentPost.likes.findIndex(
-    (user) => user == loggedInUser._id
-  );
+   const isLiked = currentPost.likes.includes(loggedInUser._id);
 
-  //Does the Post bookmarked by the loggedInUser
-  const postIndex = loggedInUser.bookmarks.findIndex(
+
+   const postIndex = users.find(user => user._id == loggedInUser._id).bookmarks.findIndex(
     (bookmarkedPost) => bookmarkedPost._id == currentPost._id
   );
 
-  const likeColorCode =
-    userIndex == -1
-      ? dispatch(updateAuthorLikeColorCode("#ffffff"))
-      : dispatch(updateAuthorLikeColorCode("#ff0000"));
-
-  const BookmarkColorCode =
-    postIndex == -1
-      ? dispatch(updateAuthorBookmarkColorCode("#ffffff"))
-      : dispatch(updateAuthorBookmarkColorCode("#000000"));
-
-  const [commentData, setCommentData] = useState({
-    comment: "",
-    commentedUser: loggedInUser,
-  });
-
-  
 
   const commentHandler = (e) => {
     e.stopPropagation();
@@ -89,17 +67,11 @@ const PostDetail = () => {
 
   const handleLikeDislikePost = (e) => {
     e.stopPropagation();
-    authorLikeColorCode == "#ffffff"
-      ? dispatch(updateAuthorLikeColorCode("#ff0000"))
-      : dispatch(updateAuthorLikeColorCode("#ffffff"));
     dispatch(updatePostLikesAsync(currentPost, loggedInUser));
   };
 
   const handleBookmarkPost = (e) => {
     e.stopPropagation();
-    authorBookmarkColorCode == "#ffffff"
-      ? dispatch(updateAuthorBookmarkColorCode("#000000"))
-      : dispatch(updateAuthorBookmarkColorCode("#ffffff"));
     dispatch(updateBookmarksAsync(currentPost, loggedInUser));
   };
 
@@ -271,7 +243,7 @@ const PostDetail = () => {
                     onClick={handleLikeDislikePost}
                   >
                     <path
-                      fill={authorLikeColorCode}
+                      fill={isLiked ? "#ff0000" : "#ffffff"}
                       d="M12 5.881A5.39 5.39 0 0116.05 4C18.822 4 21 6.178 21 8.95c0 3.4-3.055 6.17-7.684 10.367l-.011.01L12 20.515l-1.305-1.179-.036-.032C6.044 15.11 3 12.344 3 8.95 3 6.178 5.178 4 7.95 4A5.39 5.39 0 0112 5.881z"
                     ></path>
                   </svg>
@@ -321,7 +293,7 @@ const PostDetail = () => {
                     onClick={handleBookmarkPost}
                   >
                     <path
-                      fill={authorBookmarkColorCode}
+                       fill={postIndex == -1 ? "#ffffff" : "#000000"}
                       d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2"
                     />
                   </svg>

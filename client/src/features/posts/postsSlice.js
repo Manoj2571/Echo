@@ -190,13 +190,14 @@ export const updatePostLikesAsync = (post, user) => async (dispatch) => {
           authorId: post.author._id,
           post: data.post,
           user,
-          action: "like",
+          action: "liked",
         });
       }
 
       socket.emit("postLikes", data.post);
     }
   } catch (error) {
+    console.log(error)
     toast.error("Failed to update post.")
   }
 };

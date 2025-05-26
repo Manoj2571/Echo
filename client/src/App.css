@@ -190,7 +190,7 @@ input.form-control:focus {
 
 .post_display {
   display: flex;
-  background-color: white; 
+  background-color: white;
 }
 
 .post_display:hover {
@@ -216,7 +216,8 @@ input.form-control:focus {
   position: fixed;
   top: 12%;
   left: 24%;
-  width: 46%;
+  width: max-content;
+  min-width: 46%;
   border-radius: 5px;
   z-index: 10000;
   box-shadow: 0 1px 10px #0003;
@@ -229,7 +230,8 @@ input.form-control:focus {
   background-color: white;
   top: 20%;
   left: 24%;
-  width: 46%;
+  width: max-content;
+  min-width: 46%;
   /* border: 1px solid black; */
   border-radius: 5px;
   z-index: 10000;
@@ -243,7 +245,7 @@ input.form-control:focus {
   height: auto;
   padding: 0.8rem;
   top: 11%;
-  left: 40%;
+  left: 31%;
   z-index: 5000;
   text-wrap: nowrap;
 }
@@ -254,7 +256,8 @@ input.form-control:focus {
   background-color: white;
   top: 15%;
   left: 24%;
-  width: 46%;
+  width: max-content;
+  min-width: 46%;
   /* border: 1px solid black; */
   border-radius: 5px;
   z-index: 500;
