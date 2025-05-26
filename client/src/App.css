@@ -1,0 +1,248 @@
+:root {
+    --primary-color: #FF3B30;
+    --secondary-color: #FFF6EA;
+    --action-color: #3B82F6;
+    --grey-color: #9a9a9a;
+    --black-color: #282828;
+    --white-color: #fff;
+    --lynx-white-color: #f7f7f7;
+    --violet-color: #5348C7;
+    --lynx-gray-color: #C5C5C5;
+    --font: 'Open Sans', sans-serif;
+    --xxl-size: 4rem;
+    --xl-size: 2.5rem;
+    --l-size: 2rem;
+    --m-size: 1.5rem;
+    --s-size: 1rem;
+    --xs-size: 0.5rem;
+    --xl-font: 3rem;
+    --light-weight: 300;
+    --regular-weight: 400;
+    --semibold-weight: 600;
+    --bold-weight: 700;
+    --black-weight: 900;
+}
+
+body {
+    background-color: var(--lynx-white-color);
+    font-family: var(--font);
+    color: var(--black-color);
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-areas: 
+    "header header header"
+    "aside1 main aside2"
+    "aside1 main aside2"
+    "aside1 main aside2";
+}
+
+nav {
+  grid-area: header;
+}
+
+.sidebar1 {
+  grid-area: aside1;
+  width: max-content;
+  height: 100vh;
+  overflow: auto;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  display: block;
+  z-index: 30;
+}
+
+.mr-xxl {
+    margin-right: var(--xxl-size);
+}
+
+.mt-xl {
+    margin-top: var(--xl-size);
+}
+
+
+.profile_suggestions {
+  grid-area: aside2;
+  height: 80vh;
+  width: max-content;
+  overflow: auto;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 5%;
+  display: block;
+  z-index: 10;
+}
+
+
+
+input.form-control:focus {
+  border: 2px solid var(--black-color);
+  box-shadow: none; /* Remove Bootstrap's glow */
+  outline: none;
+}
+
+
+.landing_background {
+  background-image: url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+  background-size: auto;
+  padding: 45px;
+  padding-bottom: 120px;
+  color: white;
+}
+
+.landing_btn {
+  border: 1px solid;
+  text-decoration: none;
+  border-radius: 20px;
+  width: 200px;
+  align-self: center;
+  padding: 4px;
+  font-size: large;
+}
+
+.primary-bg {
+    background-color: var(--primary-color);
+}
+
+.primary-txt {
+   color: var(--primary-color);
+}
+
+.grey-border {
+    border: 1px solid var(--lynx-gray-color);
+}
+
+.primary-border {
+  border: 1px solid var(--primary-color);
+}
+
+.grey-bg {
+  background-color: var(--lynx-white-color);
+}
+
+.outline-transparent {
+    outline: 0.1rem solid transparent;
+}
+
+.p-xxl {
+  padding: var(--xxl-size)
+}
+
+.pl-xxl {
+    padding-left: var(--xxl-size);
+}
+.p-s {
+    padding: var(--s-size);
+}
+.ml-m {
+    margin-left: var(--m-size);
+}
+
+.p-xs {
+    padding: var(--xs-size);
+}
+
+.landing_btn:hover {
+  background-color: rgba(245, 240, 240, 0.15);
+  color: white;
+}
+
+.br-m {
+    border-radius: 0.6rem;
+}
+
+.pb-xl {
+    padding-bottom: var(--xl-size);
+}
+.pt-xl {
+    padding-top: var(--xl-size);
+}
+
+.fw-black {
+    font-weight: var(--black-weight);
+}
+
+.txt-l {
+    font-size: var(--l-size);
+    line-height: var(--xl-size);
+}
+
+.mb-m {
+    margin-bottom: var(--m-size);
+}
+
+.txt-xl {
+    font-size: var(--xl-font);
+    line-height: var(--xxl-size);
+}
+
+.w-full {
+    width: 100%;
+}
+
+.h-full {
+    min-height: 100vh;
+}
+
+.post_display {
+  display: flex;
+  background-color: white; 
+}
+
+.post_display:hover {
+  display: flex;
+  box-shadow: 0 1px 10px #0003;
+}
+
+
+.tag_btn_selected {
+  border: 0;
+  border-bottom: 2px solid var(--primary-color);
+  background-color: transparent;
+  color: var(--primary-color);
+}
+
+.tag_btn {
+  border: 0;
+  background-color: transparent;
+  color: #000000;
+}
+
+.newPost_popup {
+  position: fixed;
+  top: 12%;
+  left: 24%;
+  width: 46%;
+  border-radius: 5px;
+  z-index: 10000;
+  box-shadow: 0 1px 10px #0003;
+  background-color: white;
+}
+
+.comment_popup {
+  position: fixed;
+  box-shadow: 0 1px 10px #0003;
+  background-color: white;
+  top: 20%;
+  left: 24%;
+  width: 46%;
+  /* border: 1px solid black; */
+  border-radius: 5px;
+  z-index: 10000;
+}
+
+.sharePost_popup {
+  position: fixed;
+  box-shadow: 0 1px 10px #0003;
+  background-color: white;
+  top: 15%;
+  left: 24%;
+  width: 46%;
+  /* border: 1px solid black; */
+  border-radius: 5px;
+  z-index: 500;
+}

@@ -1,0 +1,52 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addNewPost, updatePostLikes } from "../posts/postsSlice";
+import { setAlertMessage, updateBookmarks } from "../users/usersSlice";
+import { getSocket, initSocket } from "../utils/socket";
+
+const useSocketListener = () => {
+  const dispatch = useDispatch();
+
+  const { loggedInUser, isUserLoggedIn } = useSelector((state) => state.users);
+
+  // const currentSocket = getSocket();
+
+  useEffect(() => {
+    if (isUserLoggedIn) {
+      initSocket(loggedInUser);
+
+      const socket = getSocket();
+
+      socket.on("connect", () => {
+        console.log("socket connected");
+      });
+
+      socket.on("newPostCreated", (post) => {
+        console.log("New post triggered");
+        dispatch(addNewPost(post));
+      });
+
+      socket.on("postInteractionNotification", (data) => {
+        dispatch(setAlertMessage(data));
+      });
+
+      socket.on("postLikesUpdate", (data) => {
+        dispatch(updatePostLikes(data));
+      });
+
+      socket.on("bookmarksUpdate", (data) => {
+        dispatch(updateBookmarks(data));
+      });
+
+      return () => {
+        socket.off("connect");
+        socket.off("newPostCreated");
+        socket.off("postInteractionNotification");
+        socket.off("postLikesUpdate");
+        socket.off("bookmarksUpdate");
+      };
+    }
+  }, [isUserLoggedIn]);
+};
+
+export default useSocketListener;
