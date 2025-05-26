@@ -120,9 +120,9 @@ export const addNewPostAsync = createAsyncThunk(
         (post) => post._id == fullPost.parentPostComment
       );
 
-      // const socket = getSocket();
+      const socket = getSocket();
 
-      // socket.emit("newPost", { fullPost, parentPostComment });
+      socket.emit("newPost", { fullPost, parentPostComment });
 
       thunkAPI.dispatch(addNewPost(fullPost));
     } catch (error) {

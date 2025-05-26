@@ -14,6 +14,7 @@ import Profile from "./pages/Profile";
 import PostDetail from "./pages/PostDetail";
 import OtherProfile from "./pages/OthersProfile";
 import Search from "./pages/Search";
+import Alert from "./components/alert/Alert";
 
 export default function App() {
 
@@ -27,8 +28,7 @@ export default function App() {
             duration: 1800
           }}
         />
-        {/* <Alert />
-        <TokenValidator /> */}
+        <Alert />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path='/login' element={<Login />} />

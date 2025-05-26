@@ -235,6 +235,19 @@ input.form-control:focus {
   z-index: 10000;
 }
 
+.alert_popup {
+  position: fixed;
+  box-shadow: 0 1px 10px #0003;
+  border-radius: 20px;
+  background-color: var(--white-color);
+  height: auto;
+  padding: 0.8rem;
+  top: 11%;
+  left: 40%;
+  z-index: 5000;
+  text-wrap: nowrap;
+}
+
 .sharePost_popup {
   position: fixed;
   box-shadow: 0 1px 10px #0003;

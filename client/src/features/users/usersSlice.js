@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { fetchPosts } from "../posts/postsSlice";
+import { getSocket } from "../../utils/socket";
 
 export const fetchUsers = createAsyncThunk("/users/fetchUsers", async () => {
   const response = await axios.get("https://echo-eta-eight.vercel.app/api/users");
@@ -40,14 +41,14 @@ const usersSlice = createSlice({
       state.isUserLoggedIn = false
       state.loggedInUser = {}
     },
+    setAlertMessage: (state, action) => {
+      state.alertMessage = action.payload;
+    },
     updateOtherUser: (state, action) => {
       const userIndex = state.users.findIndex(
         (user) => user._id == action.payload._id
       );
       state.users[userIndex] = action.payload;
-    },
-    setIsValidationCompleted: (state, action) => {
-      state.isValidationCompleted = action.payload;
     },
      addNewUser: (state, action) => {
             state.users = [...state.users, action.payload]
@@ -72,10 +73,10 @@ export const {
   updateLoggedInUser,
   updateOtherUser,
   updateBookmarks,
-  setIsValidationCompleted,
   setLoggedInUser,
   addNewUser,
-  logoutUser
+  setAlertMessage,
+  logoutUser,
 } = usersSlice.actions;
 
 export const loginUserAsync = createAsyncThunk("/users/loginUser", async (userData, thunkAPI) => {
@@ -105,31 +106,6 @@ export const signupUserAsync = createAsyncThunk("/users/signupUser", async (newU
     }
 })
 
-export const addUserAsync = createAsyncThunk(
-  "/api/addUser",
-  async (userData, thunkAPI) => {
-    try {
-      const response = await axios.post(
-        "https://echo-eta-eight.vercel.app/api/users/addUser",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const data = await response.data;
-
-    //   thunkAPI.dispatch(addNewUser(data.user));
-    } catch (error) {
-      
-        toast.error("Unable to add user, please try again.")
-      
-    }
-  }
-);
-
 export const updateBookmarksAsync = (post, user) => async (dispatch) => {
   try {
     const postIndex = user.bookmarks.findIndex(
@@ -156,18 +132,18 @@ export const updateBookmarksAsync = (post, user) => async (dispatch) => {
       toast.error("Failed to update bookmarks");
     } else {
       const data = await response.json();
-      // const socket = getSocket();
+      const socket = getSocket();
 
-        // if (postIndex == -1) {
-        //   socket.emit("postInteraction", {
-        //     authorId: post.author._id,
-        //     post: post,
-        //     user,
-        //     action: "bookmark",
-        //   });
-        // }
+        if (postIndex == -1) {
+          socket.emit("postInteraction", {
+            authorId: post.author._id,
+            post: post,
+            user,
+            action: "bookmark",
+          });
+        }
       dispatch(updateBookmarks(data.updatedUser));
-      // socket.emit("bookmarkPost", data.updatedUser);
+      socket.emit("bookmarkPost", data.updatedUser);
       postIndex == -1 ? toast.success("Post added to your bookmarks.") : toast.error("Post removed from your bookmarks.")
     }
   } catch (error) {

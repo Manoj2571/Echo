@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewPost, updatePostLikes } from "../posts/postsSlice";
-import { setAlertMessage, updateBookmarks } from "../users/usersSlice";
+import { addNewPost, updatePostLikes } from "../features/posts/postsSlice";
+import { setAlertMessage, updateBookmarks } from "../features/users/usersSlice";
 import { getSocket, initSocket } from "../utils/socket";
 
 const useSocketListener = () => {
