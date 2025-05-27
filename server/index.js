@@ -9,7 +9,6 @@ const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
 const cookieParser = require("cookie-parser")
 const jwt = require('jsonwebtoken')
-const http = require('http')
 
 dotenv.config()
 
@@ -41,11 +40,14 @@ cloudinary.config({
 const storage = multer.diskStorage({})
 const upload = multer({ storage })
 
-const server = http.createServer(app)
-
-server.listen(PORT, () => {
-  console.log("Server is running on port", PORT)
+app.listen(PORT, () => {
+    console.log("Server is up and running on", PORT)
 })
+
+app.get("/", async (req, res) => {
+    res.send("Hello!")
+})
+
 
 
 //get users
