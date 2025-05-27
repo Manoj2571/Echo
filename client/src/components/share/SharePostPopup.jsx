@@ -54,7 +54,7 @@ const SharePostPopup = ({ setShareClick, post }) => {
       >
         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
       </svg>
-      <div className="p-2 d-flex  mb-3">
+      <div className="p-2 d-flex ">
         <div className="" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
           <img
             className="rounded-circle"
@@ -78,7 +78,7 @@ const SharePostPopup = ({ setShareClick, post }) => {
             }
           ></textarea>
           <div
-            className="p-3 bg-white d-flex  mb-3 border rounded post_display"
+            className="p-2 bg-white d-flex border rounded post_display"
             onClick={(e) => {
               e.stopPropagation();
               navigate(`/postDetail/${post._id}`);
@@ -108,12 +108,12 @@ const SharePostPopup = ({ setShareClick, post }) => {
               <div style={{ paddingInlineEnd: "18px" }}>
                 <p className="truncated">{post.content}</p>
                 {post.media && (
-                  <div className="square-box position-relative overflow-hidden pb-3">
+                  <div className="square-box overflow-hidden pb-2">
         <img
           src={post.media}
           alt="Post"
           className="w-100 h-100"
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: 'contain', maxHeight: "40vh" }}
         />
       </div>
                 )}
@@ -122,7 +122,7 @@ const SharePostPopup = ({ setShareClick, post }) => {
           </div>
         </div>
       </div>
-      <div className="d-flex align-items-center justify-content-between mt-2 p-3">
+      <div className="d-flex align-items-center justify-content-between p-3">
         <div className="d-flex gap-3">
           <label htmlFor="imageFileInput">
             <input

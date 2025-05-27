@@ -13,7 +13,7 @@ const SearchResults = () => {
     (state) => state.users
   );
 
-
+  
   const {searchTerm} = useSelector((state) => state.search)
 
   const [selectedTag, setSelectedTag] = useState("Top");

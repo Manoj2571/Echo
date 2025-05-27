@@ -253,10 +253,11 @@ input.form-control:focus {
   position: fixed;
   box-shadow: 0 1px 10px #0003;
   background-color: white;
-  top: 15%;
+  top: 12%;
   left: 24%;
-  width: max-content;
-  min-width: 46%;
+  width: 46%;
+  max-height: 80vh;
+  overflow: hidden;
   /* border: 1px solid black; */
   border-radius: 5px;
   z-index: 500;
