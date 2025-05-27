@@ -101,7 +101,7 @@ const PostDetail = () => {
                 <div className="d-flex justify-content-between align-items-center mb-2 ">
                   <Link
                     className="d-flex justify-content-between"
-                    to={`/othersProfile/${currentPost.author._id}`}
+                    to={`/profile/${currentPost.author._id}`}
                     // state={{ user, follow: false }}
                     style={{ textDecoration: "none" }}
                   >
@@ -143,12 +143,14 @@ const PostDetail = () => {
                   {currentPost.content}
                 </div>
                 {currentPost.media && (
-                  <img
-                    src={currentPost.media}
-                    width="90%"
-                    height="300px"
-                    className="mb-3 px-2"
-                  />
+                  <div className="square-box position-relative overflow-hidden pb-3">
+        <img
+          src={currentPost.media}
+          alt="Post"
+          className="w-100 h-100"
+          style={{ objectFit: 'cover' }}
+        />
+      </div>
                 )}
                 {currentPost.repost && (
                   <div
@@ -204,12 +206,14 @@ const PostDetail = () => {
                       <div style={{ paddingInlineEnd: "18px" }}>
                         <p className="ms-1">{currentPost.repost.content}</p>
                         {currentPost.repost.media && (
-                          <img
-                            src={currentPost.repost.media}
-                            width="90%"
-                            height="300px"
-                            className="mb-3"
-                          />
+                          <div className="square-box position-relative overflow-hidden pb-3">
+        <img
+          src={currentPost.media}
+          alt="Post"
+          className="w-100 h-100"
+          style={{ objectFit: 'cover' }}
+        />
+      </div>
                         )}
                       </div>
                     </div>

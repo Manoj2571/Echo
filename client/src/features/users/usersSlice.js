@@ -235,7 +235,7 @@ export const updateUserDataAsync = createAsyncThunk(
     const { loggedInUser } = thunkAPI.getState().users;
     try {
       const response = await axios.post(
-        `https://echo-eta-eight.vercel.app/api/users/updateUser/${loggedInUser._id}`,
+        `https://echo-eta-eight.vercel.app/api/users/edit/profile/${loggedInUser._id}`,
         formData,
         {
           headers: {

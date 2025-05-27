@@ -34,8 +34,6 @@ const HomePage = () => {
       <Header />
       <NavigationBar />
       <main className="me-5 mt-5 pt-2 pe-3">
-        {/* <EditPostPopup post={sortedPosts[2]}/> */}
-        
         <NewPostSection />
         <div className="d-flex justify-content-between align-items-center mt-3 mb-2 me-3 position-relative">
           <h4 className="fw-bold">{selected}</h4>

@@ -10,12 +10,6 @@ const bodyParser = require('body-parser')
 const cookieParser = require("cookie-parser")
 const jwt = require('jsonwebtoken')
 const http = require('http')
-const {Server} = require('socket.io')
-
-const postAuthorSocketIdArray = []  // {authorID, socketID}
-
-
-const activeUsers = {}
 
 dotenv.config()
 
@@ -49,95 +43,12 @@ const upload = multer({ storage })
 
 const server = http.createServer(app)
 
-const io = new Server(server, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
-  }
-});
-
-io.on("connection", (socket) => {
-
-  const {userId} = socket.handshake.auth
-  
-  activeUsers[userId] = socket.id
-  console.log(activeUsers)
-
-
-//new post broadcast
-  socket.on("newPost", (data) => {
-
-    socket.broadcast.emit("newPostCreated", data.fullPost)
-
-
-    //new post is comment ? trigger post interaction notification to author
-    if(data.fullPost.parentPostComment) {
-      
-      const authorId = data.parentPostComment.author._id
-      if(authorId in activeUsers) {
-        const socketId = activeUsers[authorId]
-        socket.to(socketId).emit("postInteractionNotification", {action: "comment", post: data.fullPost, user: data.fullPost.author})
-      }
-    }
-
-    if(data.fullPost.repost) {
-      const authorId = data.fullPost.repost.author._id
-      if(authorId in activeUsers) {
-        const socketId = activeUsers[authorId]
-        socket.to(socketId).emit("postInteractionNotification", {action: "share", post: data.fullPost.repost, user: data.fullPost.author})
-      }
-    }
-
-  })
-
-  //post interaction notification to author
-  socket.on("postInteraction", (data) => {
-
-    const authorId = data.authorId
-
-    if(authorId in activeUsers) {
-      const socketId = activeUsers[authorId]
-      console.log(data.post)
-      socket.to(socketId).emit("postInteractionNotification", {action: data.action, post: data.post, user: data.user})
-    }
-  })
-
-  //update post likes 
-  socket.on("postLikes", (data) => {
-    socket.broadcast.emit("postLikesUpdate", data)
-  })
-
-  socket.on("bookmarkPost", (data) => {
-    socket.broadcast.emit("bookmarksUpdate", data)
-  })
-
-  
-  socket.on("disconnect", () => {
-    delete activeUsers[userId]
-  });
-
-  
-
-});
-
-
 server.listen(PORT, () => {
   console.log("Server is running on port", PORT)
 })
 
 
-const deleteTestPosts = async () => {
-  try {
-    const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
-
-    await Post.deleteMany({ createdAt: { $gte: twoHoursAgo } });
-  } catch(err) {
-    console.log(err)
-  }
-}
-
-// deleteTestPosts()
-
+//get users
 app.get("/api/users", async (req, res) => {
   try {
     const users = await User.find().populate({path: "bookmarks", populate: [
@@ -157,7 +68,6 @@ app.get("/api/users", async (req, res) => {
     res.status(500).json({message: "Internal server error."})
   }
 })
-
 
 
 //update user
@@ -182,7 +92,8 @@ app.post("/api/users/edit/:userId", async (req, res) => {
   }
 })
 
-app.post("/api/users/updateUser/:userId", upload.single("profilePictureUrl"), async (req, res) => {
+//update user profile
+app.post("/api/users/edit/profile/:userId", upload.single("profilePictureUrl"), async (req, res) => {
   try {
     const file = req.file
     const user = await User.findById(req.params.userId)
@@ -194,7 +105,7 @@ app.post("/api/users/updateUser/:userId", upload.single("profilePictureUrl"), as
     { path: 'author' },
     {
       path: 'repost',
-      populate: { path: 'author' } // If you want to populate the author of the repost as well
+      populate: { path: 'author' } // populate the author of the repost as well
     }
   ]})
     } else {
@@ -203,7 +114,7 @@ app.post("/api/users/updateUser/:userId", upload.single("profilePictureUrl"), as
     { path: 'author' },
     {
       path: 'repost',
-      populate: { path: 'author' } // If you want to populate the author of the repost as well
+      populate: { path: 'author' } // populate the author of the repost as well
     }
   ]})
       } else {
@@ -214,7 +125,7 @@ app.post("/api/users/updateUser/:userId", upload.single("profilePictureUrl"), as
     { path: 'author' },
     {
       path: 'repost',
-      populate: { path: 'author' } // If you want to populate the author of the repost as well
+      populate: { path: 'author' } // populate the author of the repost as well
     }
   ]})
       }
@@ -231,8 +142,6 @@ app.post("/api/users/updateUser/:userId", upload.single("profilePictureUrl"), as
     res.status(500).json({message: "Internal server error."})
   }
 })
-
-
 
 
 //update post
@@ -252,7 +161,7 @@ app.post("/api/posts/edit/:postId", async (req, res) => {
   }
 })
 
-
+//get posts
 app.get("/api/posts", async (req, res) => {
   try {
     const posts = await Post.find().sort({createdAt: -1}).populate([{path: "author"}, {path: "repost", populate: {path: "author"}}])
@@ -266,25 +175,7 @@ app.get("/api/posts", async (req, res) => {
   } 
 })
 
-// app.post("/upload", upload.single("image"), async (req, res) => {
-//     try {
-//         const file = req.file
-//         if(!file) return res.status(400).send("No file uploaded.")
-        
-//         const result = await cloudinary.uploader.upload(file.path, {
-//             folder: "uploads"
-//         })
-
-//         const newImage = new Post({author, media, content})
-//         await newImage.save()
-        
-//     } catch (error) {
-
-//     }
-// })
-
-
-
+//new post
 app.post("/api/user/post", upload.single("media"), async (req, res) => {
   try {
     const file = req.file
@@ -317,30 +208,7 @@ app.post("/api/user/post", upload.single("media"), async (req, res) => {
   }
 })
 
-app.post('/login', async (req, res) => {
-
-  const {email, password, rememberMe} = req.body
-  const user = await User.findOne({email})
-
-  if (!user) {
-      return res.status(400).json({ message: "Account Doesn't exists" });
-  }
-
-  const isMatch = user.password === password
-  if (!isMatch) {
-      return res.status(400).json({ message: 'Wrong Password' });
-  }
-
-
-  const payload = {userId: user._id}
-
-  const tokenOptions = rememberMe ? {expiresIn: '7d'} : {expiresIn: '15m'}
-
-  const token = jwt.sign(payload, SECRET_KEY, tokenOptions)
-
-  return res.status(200).json({ message: 'Login successful', token });
-}) 
-
+//login
 app.post("/auth/login", async (req, res) => {
     try {
         const {email, password, rememberMe} = req.body
@@ -376,6 +244,8 @@ app.post("/auth/login", async (req, res) => {
     }
 })
 
+
+//get post data
 app.get("/api/posts/:postId", (req, res) => {
   try {
     const requiredPost = Post.findById(req.params.postId)
@@ -390,7 +260,7 @@ app.get("/api/posts/:postId", (req, res) => {
   }
 })
 
-
+//delete post
 app.delete("/api/user/posts/:postId", async (req, res) => {
   try {
     const deletedPost = await Post.findByIdAndDelete(req.params.postId)
@@ -406,6 +276,7 @@ app.delete("/api/user/posts/:postId", async (req, res) => {
   }
 })
 
+//verify token
 const verifyJWT = (req, res, next) => {
     const token = req.headers["authorization"].split(" ")[1];
 
@@ -422,28 +293,7 @@ const verifyJWT = (req, res, next) => {
     })
 }
 
-
-app.post("/api/users/addUser", async (req, res) => {
-  try {
-    const newUser = new User(req.body)
-  newUser.save()
-  .then(savedUser => {
-    return User.findById(savedUser._id).populate({path: "bookmarks", populate: [
-    { path: 'author' },
-    {
-      path: 'repost',
-      populate: { path: 'author' } // If you want to populate the author of the repost as well
-    }
-  ]})
-  })
-  .then(populatedUser => {
-    res.status(200).json({message: "User Added Successfully.", user: populatedUser})
-  }) 
-  } catch (error) {
-    res.status(500).json({message: "Adding user failed.", error})
-  }
-})
-
+//sign up
 app.post("/auth/signup", async (req, res) => {
     try {
         const {email, userName} = req.body
@@ -469,6 +319,7 @@ app.post("/auth/signup", async (req, res) => {
     }  
 })
 
+//user authentication
 app.get("/auth/me", verifyJWT, async (req, res) => {
   const user = await User.findById(req.user._id).populate({path: "bookmarks", populate: [
     { path: 'author' },

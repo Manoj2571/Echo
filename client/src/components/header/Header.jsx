@@ -1,6 +1,7 @@
 import useSocketListener from "../../hooks/useSocketListener";
 
 const Header = () => {
+  
  useSocketListener();
 
   return (

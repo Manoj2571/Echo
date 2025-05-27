@@ -14,8 +14,6 @@ const postsSlice = createSlice({
     posts: [],
     postsStatus: "idle",
     error: null,
-    authorLikeColorCode: null,
-    authorBookmarkColorCode: null,
   },
   reducers: {
     updateAuthor: (state, action) => {
@@ -45,12 +43,6 @@ const postsSlice = createSlice({
 
       state.posts[postIndex].comments = action.payload.comments;
     },
-    updateAuthorLikeColorCode: (state, action) => {
-      state.authorLikeColorCode = action.payload;
-    },
-    updateAuthorBookmarkColorCode: (state, action) => {
-      state.authorBookmarkColorCode = action.payload;
-    },
     deletePost: (state, action) => {
       state.posts = state.posts.filter(post => post._id != action.payload)
     }
@@ -77,8 +69,6 @@ export const {
   deletePost,
   updatePostComments,
   updatePostContent,
-  updateAuthorLikeColorCode,
-  updateAuthorBookmarkColorCode,
 } = postsSlice.actions;
 
 export const addNewPostAsync = createAsyncThunk(
@@ -159,7 +149,6 @@ export const updatePostContentAsync = createAsyncThunk("/posts/updatePost", asyn
 
 export const updatePostLikesAsync = (post, user) => async (dispatch) => {
   try {
-    // const { socket } = useSelector((state) => state.socket);
     const userIndex = post.likes.findIndex((like) => like == user._id);
     //if user exists, remove user else add user.
     const updatedPostLikes =
@@ -197,7 +186,6 @@ export const updatePostLikesAsync = (post, user) => async (dispatch) => {
       socket.emit("postLikes", data.post);
     }
   } catch (error) {
-    console.log(error)
     toast.error("Failed to update post.")
   }
 };

@@ -15,8 +15,6 @@ const NewPostSection = () => {
         media: null,
   });
 
-    
-
     const fileHandler = (e) => {
       setNewPost({
         ...newPost,

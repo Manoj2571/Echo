@@ -51,7 +51,7 @@ export default function App() {
                 element={isUserLoggedIn ? <ProfilePage /> : <LandingPage />}
               />
               <Route
-                path="/othersProfile/:userId"
+                path="/profile/:userId"
                 element={
                   isUserLoggedIn ? <OtherProfilePage /> : <LandingPage />
                 }

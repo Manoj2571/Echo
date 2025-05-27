@@ -9,7 +9,6 @@ const useSocketListener = () => {
 
   const { loggedInUser, isUserLoggedIn } = useSelector((state) => state.users);
 
-  // const currentSocket = getSocket();
 
   useEffect(() => {
     if (isUserLoggedIn) {
@@ -22,7 +21,6 @@ const useSocketListener = () => {
       });
 
       socket.on("newPostCreated", (post) => {
-        console.log("New post triggered");
         dispatch(addNewPost(post));
       });
 

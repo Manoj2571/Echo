@@ -14,8 +14,6 @@ const Alert = () => {
     }, 2900);
   }
 
-  if(alertMessage){console.log(alertMessage.action)}
-
   return (
     <>
       {alertMessage && (

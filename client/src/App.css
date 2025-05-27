@@ -240,7 +240,6 @@ input.form-control:focus {
 .alert_popup {
   position: fixed;
   box-shadow: 0 1px 10px #0003;
-  border-radius: 20px;
   background-color: var(--white-color);
   height: auto;
   padding: 0.8rem;

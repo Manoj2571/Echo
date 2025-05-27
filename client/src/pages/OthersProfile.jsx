@@ -58,7 +58,6 @@ const OtherProfile = () => {
     } else {
       setFollowing(true);
     }
-
     dispatch(updateFollowingAsync(loggedInUser, otheruser));
     dispatch(updateFollowersAsync(loggedInUser, otheruser));
   };

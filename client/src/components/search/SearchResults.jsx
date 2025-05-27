@@ -110,12 +110,12 @@ const SearchResults = () => {
           {filteredPeople.length != 0 ? (
             filteredPeople.map((user) => (
               <div
-                className="d-flex justify-content-between align-items-center px-2 bg-white mb-3"
+                className="d-flex justify-content-between align-items-center px-2 bg-white border-bottom"
                 key={user._id}
               >
                 <Link
                   className="d-flex justify-content-between"
-                  to={`/othersProfile/${user._id}`}
+                  to={`/profile/${user._id}`}
                   style={{ textDecoration: "none" }}
                 >
                   <div>
@@ -143,7 +143,7 @@ const SearchResults = () => {
                 </Link>
                 <Link
                   style={{ textDecoration: "none" }}
-                  to={`/othersProfile/${user._id}`}
+                  to={`/profile/${user._id}`}
                   // state={{ user, follow: true }}
                 >
                   {loggedInUser.following.includes(user._id) ? (
@@ -176,7 +176,14 @@ const SearchResults = () => {
         <>
           {media.length != 0 ? (
             media?.map((post, index) => (
-              <img src={post} width="90%" height="300px" className="mb-3" key={index}/>
+              <div className="square-box position-relative overflow-hidden pb-3" key={index}>
+        <img
+          src={post}
+          alt="Post"
+          className="w-100 h-100"
+          style={{ objectFit: 'cover' }}
+        />
+      </div>
             ))
           ) : (
             <div className="display-5 text-center py-5 my-5">
@@ -190,3 +197,5 @@ const SearchResults = () => {
 };
 
 export default SearchResults;
+
+

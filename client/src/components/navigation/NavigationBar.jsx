@@ -92,8 +92,6 @@ const NavigationBar = () => {
 </div>
         </div>}</> : <div className="ms-5"><Spinner /></div>}
         </div>
-
-        
       </div>
       </div>
   );

@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-// import { fetchUsers } from "../users/usersSlice";
+
 
 
 const LandingPage = () => {
