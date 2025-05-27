@@ -15,7 +15,7 @@ dotenv.config()
 const JWT_SECRET = 'echo_login_access_key'
 
 const app = express()
-const PORT = 8000
+const PORT = 8020
 
 const corsOptions = {
   origin: "*",
