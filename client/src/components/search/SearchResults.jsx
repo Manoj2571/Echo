@@ -2,6 +2,9 @@ import Post from "../../features/posts/Post";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import MediaView from "../media/MediaView";
+import React from "react";
+import UserAvatar from "../profile/UserAvatar";
 
 
 
@@ -119,12 +122,7 @@ const SearchResults = () => {
                   style={{ textDecoration: "none" }}
                 >
                   <div>
-                    <img
-                      className="rounded-circle mt-1"
-                      src={user.profilePictureUrl || `https://ui-avatars.com/api/?color=ffffff&background=random&name=${user.userName}&length=1&size=250`}
-                      width="40px"
-                      height="40px"
-                    />
+                    <UserAvatar url={user.profilePictureUrl || `https://ui-avatars.com/api/?color=ffffff&background=random&name=${user.userName}&length=1&size=250`}/>
                   </div>
                   <div className="mb-1 ms-2">
                     <div
@@ -176,14 +174,7 @@ const SearchResults = () => {
         <>
           {media.length != 0 ? (
             media?.map((post, index) => (
-              <div className="square-box position-relative overflow-hidden pb-3" key={index}>
-        <img
-          src={post}
-          alt="Post"
-          className="w-100 h-100"
-          style={{ objectFit: 'cover' }}
-        />
-      </div>
+              <React.Fragment key={index}><MediaView media={post}/></React.Fragment>
             ))
           ) : (
             <div className="display-5 text-center py-5 my-5">

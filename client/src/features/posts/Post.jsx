@@ -16,6 +16,8 @@ import {
 import Repost from "./Repost";
 import ModifyPost from "./ModifyPost";
 import EditPostPopup from "./EditPostPopup";
+import MediaView from "../../components/media/MediaView";
+import UserAvatar from "../../components/profile/UserAvatar";
 
 export const postingTimeModifier = (postingTime) => {
     const now = Date.now();
@@ -119,12 +121,7 @@ const Post = ({ post }) => {
       >
         {isProfilePage && showModifyPost && <ModifyPost post={post} setShowModifyPost={setShowModifyPost} setShowEditPost={setShowEditPost}/>}
         <div className="" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
-          <img
-            className="rounded-circle"
-            src={post.author.profilePictureUrl}
-            width="40px"
-            height="40px"
-          />
+          <UserAvatar url={post.author.profilePictureUrl}/>
         </div>
         <div
           className="flex-grow-1"
@@ -156,14 +153,7 @@ const Post = ({ post }) => {
           </div>
           <div style={{ paddingInlineEnd: "18px" }}>
             <p style={{ whiteSpace: "pre-wrap" }}>{post.content}</p>
-            {post.media && <div className="square-box position-relative overflow-hidden pb-3">
-        <img
-          src={post.media}
-          alt="Post"
-          className="w-100 h-100"
-          style={{ objectFit: 'cover' }}
-        />
-      </div>}
+            {post.media && <MediaView media={post.media}/>}
             {post.repost && (
               <Repost repost={post.repost}/>
             )}

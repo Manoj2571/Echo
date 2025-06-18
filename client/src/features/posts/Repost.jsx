@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { postingTimeModifier } from "./Post";
+import MediaView from "../../components/media/MediaView";
+import UserAvatar from "../../components/profile/UserAvatar";
 
 const Repost = ({repost}) => {
 
@@ -17,12 +19,7 @@ const Repost = ({repost}) => {
                           className=""
                           style={{ paddingLeft: "0px", paddingRight: "0px" }}
                         >
-                          <img
-                            className="rounded-circle"
-                            height="40px"
-                            width="40px"
-                            src={repost.author.profilePictureUrl}
-                          />
+                          <UserAvatar url={repost.author.profilePictureUrl}/>
                         </div>
                         <div
                           className="flex-grow-1"
@@ -38,14 +35,7 @@ const Repost = ({repost}) => {
                           <div style={{ paddingInlineEnd: "18px" }}>
                             <p className="ms-1">{ repost.content}</p>
                             {repost.media && (
-                              <div className="square-box position-relative overflow-hidden pb-3">
-        <img
-          src={repost.media}
-          alt="Post"
-          className="w-100 h-100"
-          style={{ objectFit: 'cover' }}
-        />
-      </div>
+                              <MediaView media={repost.media}/>
                             )}
                           </div>
                         </div>

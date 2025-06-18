@@ -80,6 +80,7 @@ const UserContent = () => {
                       width="90%"
                       height="300px"
                       className="mb-3"
+                      alt={`media ${index}`}
                     />
             ))}
         </>

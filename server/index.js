@@ -66,7 +66,7 @@ app.get("/api/users", async (req, res) => {
       res.status(404).json("Users not found.")
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
     res.status(500).json({message: "Internal server error."})
   }
 })
@@ -85,11 +85,11 @@ app.post("/api/users/edit/:userId", async (req, res) => {
     if(updatedUser) {
       res.status(201).json({message: "user updated successfully", updatedUser})
     } else {
-      console.log(error)
+      console.error(error)
       res.status(404).json("Failed to update user.")
     } 
   } catch (error) {
-    console.log(error)
+    console.error(error)
     res.status(500).json({message: "Internal server error."})
   }
 })
@@ -140,7 +140,7 @@ app.post("/api/users/edit/profile/:userId", upload.single("profilePictureUrl"), 
       res.status(404).json("Failed to update user.")
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
     res.status(500).json({message: "Internal server error."})
   }
 })
@@ -158,7 +158,7 @@ app.post("/api/posts/edit/:postId", async (req, res) => {
 
 
   } catch (error) {
-    console.log(error)
+    console.error(error)
     res.status(500).json({message: "Failed to update post"})
   }
 })
@@ -173,7 +173,7 @@ app.get("/api/posts", async (req, res) => {
       res.status(404).json({message: "Internal server error."})
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
   } 
 })
 
@@ -188,8 +188,11 @@ app.post("/api/user/post", upload.single("media"), async (req, res) => {
     if(!file) {
         newPost = new Post({author, content, repost, parentPostComment})
     } else {
-        const result = await cloudinary.uploader.upload(file.path, {
-            folder: "uploads"
+        const isVideo = file.mimetype.startsWith("video/");
+        const resourceType = isVideo ? "video" : "image";
+        const result = await cloudinary.v2.uploader.upload(file.path, {
+            folder: "uploads",
+            resource_type: resourceType
         })
         newPost = new Post({author,content,repost,parentPostComment, media: result.secure_url})
     }
@@ -205,7 +208,7 @@ app.post("/api/user/post", upload.single("media"), async (req, res) => {
     }
     
   } catch (error) {
-    console.log(error)
+    console.error(error)
     res.status(500).json({message: "Failed to add post.", error: error})
   }
 })
@@ -241,7 +244,7 @@ app.post("/auth/login", async (req, res) => {
         res.status(200).json({message: "Login Successful", token, user: existingUser})  
 
     } catch (error) {
-        console.log(error)
+        console.error(error)
         res.status(500).json({message: "User Login Failed.", error})
     }
 })
@@ -257,7 +260,7 @@ app.get("/api/posts/:postId", (req, res) => {
       res.status(404).json({message: "post not found."})
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
     res.status(500).json({message: "Failed to get post."})
   }
 })
@@ -273,7 +276,7 @@ app.delete("/api/user/posts/:postId", async (req, res) => {
       res.status(404).json("Internal server error.")
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
     res.status(500).json({message: "Failed to delete post."})
   }
 })
@@ -316,7 +319,7 @@ app.post("/auth/signup", async (req, res) => {
 
 
     } catch (error) {
-        console.log(error)
+        console.error(error)
         res.status(500).json({message: "Adding user Failed.", error})
     }  
 })

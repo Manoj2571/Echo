@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { updateUserDataAsync } from "../../features/users/usersSlice";
 import toast from "react-hot-toast";
+import UserAvatar from "./UserAvatar";
 
 const EditProfile = ({ setEditProfile }) => {
   const dispatch = useDispatch();
@@ -98,12 +99,7 @@ const EditProfile = ({ setEditProfile }) => {
       </div>
       <div className="d-flex flex-column">
         <label htmlFor="profile_image" className="d-flex align-self-center">
-          <img
-            className="rounded-circle"
-            src={loggedInUser.profilePictureUrl}
-            width="120px"
-            height="120px"
-          />
+          <UserAvatar url={loggedInUser.profilePictureUrl} width="120px" height="120px"/>
         </label>
         <input
           type="file"

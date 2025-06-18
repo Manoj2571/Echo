@@ -11,6 +11,8 @@ import { updateBookmarksAsync } from "../features/users/usersSlice";
 import { updatePostLikesAsync, addNewPostAsync } from "../features/posts/postsSlice";
 import Post from "../features/posts/Post";
 import SharePostPopup from "../components/share/SharePostPopup";
+import MediaView from "../components/media/MediaView";
+import UserAvatar from "../components/profile/UserAvatar";
 
 const PostDetail = () => {
   const { postId } = useParams();
@@ -106,12 +108,7 @@ const PostDetail = () => {
                     style={{ textDecoration: "none" }}
                   >
                     <div>
-                      <img
-                        className="rounded-circle mt-1"
-                        src={currentPost.author.profilePictureUrl}
-                        width="40px"
-                        height="40px"
-                      />
+                      <UserAvatar url={currentPost.author.profilePictureUrl}/>
                     </div>
                     <div className="mb-1 ms-2">
                       <div
@@ -143,14 +140,7 @@ const PostDetail = () => {
                   {currentPost.content}
                 </div>
                 {currentPost.media && (
-                  <div className="square-box position-relative overflow-hidden pb-3">
-        <img
-          src={currentPost.media}
-          alt="Post"
-          className="w-100 h-100"
-          style={{ objectFit: 'cover' }}
-        />
-      </div>
+                  <MediaView media={currentPost.media}/>
                 )}
                 {currentPost.repost && (
                   <div
@@ -161,12 +151,7 @@ const PostDetail = () => {
                     }}
                   >
                     <div style={{ paddingLeft: "0px", paddingRight: "0px" }}>
-                      <img
-                        className="rounded-circle"
-                        src={currentPost.repost.author.profilePictureUrl}
-                        width="40px"
-                        height="40px"
-                      />
+                      <UserAvatar url={currentPost.repost.author.profilePictureUrl}/>
                     </div>
                     <div
                       className="flex-grow-1"
@@ -206,14 +191,7 @@ const PostDetail = () => {
                       <div style={{ paddingInlineEnd: "18px" }}>
                         <p className="ms-1">{currentPost.repost.content}</p>
                         {currentPost.repost.media && (
-                          <div className="square-box position-relative overflow-hidden pb-3">
-        <img
-          src={currentPost.media}
-          alt="Post"
-          className="w-100 h-100"
-          style={{ objectFit: 'cover' }}
-        />
-      </div>
+                          <MediaView media={currentPost.repost.media} />
                         )}
                       </div>
                     </div>
@@ -310,12 +288,7 @@ const PostDetail = () => {
                     className=""
                     style={{ paddingLeft: "0px", paddingRight: "0px" }}
                   >
-                    <img
-                      className="rounded-circle"
-                      src={loggedInUser.profilePictureUrl}
-                      width="40px"
-                      height="40px"
-                    />
+                    <UserAvatar url={loggedInUser.profilePictureUrl}/>
                   </div>
                   <div
                     className="flex-grow-1 d-flex align-items-center gap-2 ms-2"

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addNewPostAsync } from "../../features/posts/postsSlice";
 import { postingTimeModifier } from "../../features/posts/Post";
 import toast from "react-hot-toast";
+import MediaView from "../media/MediaView";
+import UserAvatar from "../profile/UserAvatar";
 
 const SharePostPopup = ({ setShareClick, post }) => {
   const navigate = useNavigate()  
@@ -56,12 +58,7 @@ const SharePostPopup = ({ setShareClick, post }) => {
       </svg>
       <div className="p-2 d-flex ">
         <div className="" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
-          <img
-            className="rounded-circle"
-            src={loggedInUser.profilePictureUrl}
-            width="40px"
-            height="40px"
-          />
+         <UserAvatar url={loggedInUser.profilePictureUrl}/>
         </div>
         <div
           className="flex-grow-1"
@@ -88,12 +85,7 @@ const SharePostPopup = ({ setShareClick, post }) => {
               className=""
               style={{ paddingLeft: "0px", paddingRight: "0px" }}
             >
-              <img
-                className="rounded-circle"
-                src={post.author.profilePictureUrl}
-                width="40px"
-                height="40px"
-              />
+              <UserAvatar url={post.author.profilePictureUrl}/>
             </div>
             <div
               className="flex-grow-1"
@@ -108,14 +100,7 @@ const SharePostPopup = ({ setShareClick, post }) => {
               <div style={{ paddingInlineEnd: "18px" }}>
                 <p className="truncated">{post.content}</p>
                 {post.media && (
-                  <div className="square-box overflow-hidden pb-2">
-        <img
-          src={post.media}
-          alt="Post"
-          className="w-100 h-100"
-          style={{ objectFit: 'contain', maxHeight: "40vh" }}
-        />
-      </div>
+                  <MediaView media={post.media}/>
                 )}
               </div>
             </div>

@@ -4,6 +4,7 @@ import NewPostPopup from "../../features/posts/NewPostPopup";
 import { useDispatch, useSelector} from "react-redux";
 import { logoutUser } from "../../features/users/usersSlice";
 import Spinner from "../spinner/Spinner";
+import UserAvatar from "../profile/UserAvatar";
 
 const NavigationBar = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const NavigationBar = () => {
 
   return (
     <div className="p-s pt-xl ml-m sidebar1" style={{paddingLeft: "4rem"}}>
-      <div className="d-flex flex-column justify-content-between sidebar">
+      <div className="d-flex flex-column justify-content-between">
         <div>
             <div className={`pt-3 ps-1  ${location.pathname === "/home" && "fw-semibold"}`}>
                 <NavLink className="nav-link" to="/home">
@@ -69,12 +70,7 @@ const NavigationBar = () => {
           className="d-flex"
         >
           <div style={{ paddingLeft: "0px", paddingRight: "5px" }}>
-            <img
-              className="rounded-circle"
-              src={loggedInUser.profilePictureUrl}
-              width="40px"
-              height="40px"
-            />
+            <UserAvatar url={loggedInUser.profilePictureUrl}/>
           </div>
           <div className="ms-1">
             <div className="fw-bold" style={{ fontSize: "14px" }}>

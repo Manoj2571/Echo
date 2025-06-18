@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-
+const User = require("./User")
 
 const postSchema = mongoose.Schema(
   {
@@ -42,6 +42,25 @@ postSchema.pre('validate', function (next) {
   }
   next();
 });
+
+postSchema.post('findOneAndDelete', async function (post) {
+  if(!doc) return;
+
+  await User.updateMany(
+    {bookmarks: post._id}, {$pull: {bookmarks: post._id}}
+  )
+
+  await mongoose.model('Post').updateMany(
+    { repost: doc._id },
+    { $set: { repost: null } }
+  );
+
+  await mongoose.model('Post').updateMany(
+    { parentPostComment: doc._id },
+    { $set: { parentPostComment: null } }
+  );
+  
+})
 
 module.exports = mongoose.model("Post", postSchema)
 

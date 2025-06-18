@@ -2,11 +2,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { addNewPostAsync } from "../posts/postsSlice";
 import toast from "react-hot-toast";
+import UserAvatar from "../../components/profile/UserAvatar";
 
 
 const NewPostPopup = ({ setCreateNewPost }) => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state) => state.users);
+  const [mediaPreview, setMediaPreview] = useState({ type: "", url: "" });
 
   const [newPost, setNewPost] = useState({
     author: loggedInUser._id,
@@ -27,15 +29,42 @@ const NewPostPopup = ({ setCreateNewPost }) => {
   };
 
   const fileHandler = (e) => {
-    setNewPost({
+     const file = e.target.files[0];
+     if (!file) return;
+
+     if(file.size > 10 * 1024 * 1024) {
+        toast.error("File size exceeds 10 MB limit. Please select a smaller file.")
+        e.target.value = null; // reset the input
+        return;
+     }
+
+     setNewPost({
       ...newPost,
       media: e.target.files[0],
     });
 
+      const fileType = file.type;
 
-      toast.success(`${e.target.files[0].name} uploaded successfully.`)
+    if (fileType.startsWith("image/")) {
+      setMediaPreview({ type: "image", url: URL.createObjectURL(file) });
+    } else if (fileType.startsWith("video/")) {
+      setMediaPreview({ type: "video", url: URL.createObjectURL(file) });
+    } else {
+      toast.error("Unsupported file type");
+    }
+
+    toast.success(`${e.target.files[0].name} uploaded successfully.`)
 
   };
+
+  const removeMedia = (e) => {
+    e.preventDefault()
+  if (mediaPreview.url) {
+    URL.revokeObjectURL(mediaPreview.url);
+  }
+  setMediaPreview({ type: "", url: "" });
+  setNewPost({...newPost, media: null})
+};
 
   return (
     <div className="newPost_popup">
@@ -52,12 +81,7 @@ const NewPostPopup = ({ setCreateNewPost }) => {
       </svg>
       <div className="p-2 d-flex  mb-3">
         <div className="" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
-          <img
-            className="rounded-circle"
-            src={loggedInUser.profilePictureUrl}
-            width="40px"
-            height="40px"
-          />
+          <UserAvatar url={loggedInUser.profilePictureUrl}/>
         </div>
         <div className="" style={{ paddingLeft: "8px", paddingRight: "0px" }}>
           <span className="fw-semibold">{loggedInUser.fullName}</span>{" "}
@@ -66,7 +90,7 @@ const NewPostPopup = ({ setCreateNewPost }) => {
           <textarea
             className="bg-transparent border-0"
             placeholder="What is happening?!"
-            rows="5"
+            rows="4"
             autoFocus
             style={{ width: "100%", resize: "none", outline: "none" }}
             value={newPost.content}
@@ -74,6 +98,31 @@ const NewPostPopup = ({ setCreateNewPost }) => {
               setNewPost({ ...newPost, content: e.target.value })
             }
           ></textarea>
+          {mediaPreview.url && (
+  <div className="position-relative d-inline-block">
+    {/* Remove Button */}
+   <button
+            type="button"
+            className="btn-close position-absolute top-0 end-0 m-1 z-1"
+            onClick={removeMedia}
+          ></button>
+
+    {/* Media Preview */}
+    {mediaPreview.type === "image" ? (
+      <img
+        src={mediaPreview.url}
+        alt="Preview"
+        style={{ width: 300, height: "auto", borderRadius: 8 }}
+      />
+    ) : (
+      <video controls width="300" style={{ borderRadius: 8 }}>
+        <source src={mediaPreview.url} />
+        Your browser does not support the video tag.
+      </video>
+    )}
+  </div>
+)}
+
         </div>
       </div>
       <div className="px-2">

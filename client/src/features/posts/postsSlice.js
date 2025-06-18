@@ -79,7 +79,7 @@ export const addNewPostAsync = createAsyncThunk(
       const { loggedInUser } = thunkAPI.getState().users;
 
       const response = await axios.post(
-        "https://echo-eta-eight.vercel.app/api/user/post",
+        "http://localhost:8020/api/user/post",
         formData,
         {
           headers: {

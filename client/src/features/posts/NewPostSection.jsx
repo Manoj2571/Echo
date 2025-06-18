@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewPostAsync } from "./postsSlice";
+import UserAvatar from "../../components/profile/UserAvatar";
 
 const NewPostSection = () => {
     const dispatch = useDispatch()
@@ -39,12 +40,7 @@ const NewPostSection = () => {
                 <div
                   className="ps-3"
                 >
-                  <img
-                    className="rounded-circle"
-                    src={loggedInUser.profilePictureUrl}
-                    width="40px"
-                    height="40px"
-                  />
+                  <UserAvatar url={loggedInUser.profilePictureUrl}/>
                 </div>
                 <div
                   className="flex-grow-1 pe-3"

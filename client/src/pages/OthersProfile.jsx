@@ -6,6 +6,7 @@ import Post from "../features/posts/Post";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { updateFollowersAsync, updateFollowingAsync } from "../features/users/usersSlice";
+import UserAvatar from "../components/profile/UserAvatar";
 
 const OtherProfile = () => {
   const dispatch = useDispatch();
@@ -68,12 +69,7 @@ const OtherProfile = () => {
       <NavigationBar />
       <div className="me-5 mt-2 pt-2">
               <div className="d-flex flex-column align-items-center">
-                <img
-                  className="rounded-circle"
-                  src={otheruser.profilePictureUrl || `https://ui-avatars.com/api/?color=ffffff&background=random&name=${otheruser.userName}&length=1&size=250`}
-                  width="120px"
-                  height="120px"
-                />
+                <UserAvatar width="120px" height="120px" url={otheruser.profilePictureUrl || `https://ui-avatars.com/api/?color=ffffff&background=random&name=${otheruser.userName}&length=1&size=250`}/>
                 <h4 className="fw-bold mt-4">{otheruser.fullName}</h4>
                 <div
                   className="text-body-tertiary"
@@ -171,7 +167,7 @@ const OtherProfile = () => {
                 ))}
               {selectedTag == "Media" &&
                 UserMediaArray?.map((post, index) => (
-                  <img src={post} width="90%" height="300px" className="mb-3" key={index}/>
+                  <img src={post} width="90%" height="300px" className="mb-3" key={index} alt={`media ${index}`}/>
                 ))}
       </div>
       <ProfileSuggestions />

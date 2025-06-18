@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { updatePostContentAsync } from "./postsSlice";
+import UserAvatar from "../../components/profile/UserAvatar";
 
 
 const EditPostPopup = ({ setShowEditPost, post }) => {
@@ -29,12 +30,7 @@ const EditPostPopup = ({ setShowEditPost, post }) => {
         </div>
       <div className="p-2 d-flex  mb-3">
         <div className="" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
-          <img
-            className="rounded-circle"
-            src={loggedInUser.profilePictureUrl}
-            width="40px"
-            height="40px"
-          />
+          <UserAvatar url={loggedInUser.profilePictureUrl}/>
         </div>
         <div className="" style={{ paddingLeft: "8px", paddingRight: "0px" }}>
           <textarea

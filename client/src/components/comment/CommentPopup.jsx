@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addNewPostAsync } from "../../features/posts/postsSlice";
 import { postingTimeModifier } from "../../features/posts/Post";
+import UserAvatar from "../profile/UserAvatar";
 
 
 const CommentPopup = ({ setCommentClick, post, loggedInUser }) => {
@@ -44,12 +45,7 @@ const CommentPopup = ({ setCommentClick, post, loggedInUser }) => {
       </svg>
       <div className="p-2 d-flex">
         <div className="" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
-          <img
-            className="rounded-circle"
-            src={post.author.profilePictureUrl}
-            width="40px"
-            height="40px"
-          />
+          <UserAvatar url={post.author.profilePictureUrl}/>
         </div>
         <div className="" style={{ paddingLeft: "8px", paddingRight: "0px" }}>
           <div className="d-flex ">
@@ -67,12 +63,7 @@ const CommentPopup = ({ setCommentClick, post, loggedInUser }) => {
       </div>
       <div className="p-2 d-flex mb-3">
         <div className="" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
-          <img
-            className="rounded-circle"
-            src={loggedInUser.profilePictureUrl}
-            width="40px"
-            height="40px"
-          />
+          <UserAvatar url={loggedInUser.profilePictureUrl} />
         </div>
         <div className="" style={{ paddingLeft: "8px", paddingRight: "0px" }}>
           <textarea

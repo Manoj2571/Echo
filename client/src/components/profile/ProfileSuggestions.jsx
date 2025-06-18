@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Spinner from "../spinner/Spinner";
+import UserAvatar from "./UserAvatar";
 
 const ProfileSuggestions = () => {
   const navigate = useNavigate()
@@ -61,12 +62,7 @@ const ProfileSuggestions = () => {
                   style={{ textDecoration: "none" }}
                 >
                   <div>
-                    <img
-                      className="rounded-circle mt-1"
-                      src={user.profilePictureUrl || `https://ui-avatars.com/api/?color=ffffff&background=random&name=${user.userName}&length=1&size=250`}
-                      height="40px"
-                      width="40px"
-                    />
+                    <UserAvatar url={user.profilePictureUrl || `https://ui-avatars.com/api/?color=ffffff&background=random&name=${user.userName}&length=1&size=250`}/>
                   </div>
                   <div className="mb-1 ms-2">
                     <div

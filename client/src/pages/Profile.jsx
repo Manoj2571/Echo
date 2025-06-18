@@ -5,6 +5,7 @@ import NavigationBar from "../components/navigation/NavigationBar";
 import ProfileSuggestions from "../components/profile/ProfileSuggestions";
 import EditProfile from "../components/profile/EditProfile";
 import UserContent from "../features/users/UserContent";
+import UserAvatar from "../components/profile/UserAvatar";
 
 const Profile = () => {
   
@@ -28,12 +29,7 @@ const Profile = () => {
               <div className="me-5 mt-2 pt-2">  
                 <div className="d-flex flex-column align-items-center">
                   <label htmlFor="profile_image">
-                    <img
-                      className="rounded-circle"
-                      src={loggedInUser.profilePictureUrl}
-                      width="120px"
-                      height="120px"
-                    />
+                    <UserAvatar url={loggedInUser.profilePictureUrl} width="120px" height="120px"/>
                   </label>
                   <input type="file" id="profile_image" hidden />
                   <h4 className="fw-bold mt-4">{loggedInUser.fullName}</h4>
