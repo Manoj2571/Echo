@@ -105,6 +105,7 @@ const EditProfile = ({ setEditProfile }) => {
           type="file"
           id="profile_image"
           onChange={fileUploadHandler}
+          accept="image/*,video/*"
           hidden
         />
         <label

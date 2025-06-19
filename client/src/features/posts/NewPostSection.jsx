@@ -9,6 +9,7 @@ const NewPostSection = () => {
     const dispatch = useDispatch()
 
     const {loggedInUser} = useSelector((state) => state.users)
+    const [uploading, setUploading] = useState(false)
 
     const [newPost, setNewPost] = useState({
         author: loggedInUser?._id,
@@ -20,8 +21,8 @@ const NewPostSection = () => {
        const file = e.target.files[0];
        if (!file) return;
   
-       if(file.size > 10 * 1024 * 1024) {
-          toast.error("File size exceeds 10 MB limit. Please select a smaller file.")
+       if(file.size > 4.99 * 1024 * 1024) {
+          toast.error("File size exceeds 4.5 MB limit. Please select a smaller file.")
           e.target.value = null; // reset the input
           return;
        }
@@ -38,13 +39,18 @@ const NewPostSection = () => {
 
 
     const postHandler = () => {
+    setUploading(true)  
     const formData = new FormData();
     const { author, content, media } = newPost;
     formData.append("author", author);
     formData.append("content", content);
     formData.append("media", media);
-    dispatch(addNewPostAsync(formData));
-    setNewPost({ ...newPost, content: "", media: null });
+    dispatch(addNewPostAsync(formData))
+    .then(() => {
+      setNewPost({ ...newPost, content: "", media: null });
+    })
+    .catch((err) => toast.error("Error occured while posting, please try again."))
+    .finally(() => setUploading(false))
   };
 
 
@@ -99,13 +105,17 @@ const NewPostSection = () => {
                         <i className="bi bi-emoji-smile"></i>
                       </span>
                     </div>
-                    <button
+                    {uploading ? <button className="primary-bg  px-4 py-1 text-white border-0 outline-transparent"><div className="text-center">
+  <div className="spinner-border spinner-border-sm" role="status">
+    <span className="visually-hidden">Loading...</span>
+  </div>
+</div></button> : <button
                       className={`primary-bg  px-4 py-1 text-white border-0 outline-transparent ${newPost.content.length == 0 && "disabled"}`}
                       onClick={postHandler}
                       disabled={newPost.content.length == 0 && newPost.media == null}
                     >
                       Post
-                    </button>
+                    </button>}
                   </div>
                 </div>
               </div>
