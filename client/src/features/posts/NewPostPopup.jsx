@@ -153,12 +153,7 @@ const NewPostPopup = ({ setCreateNewPost }) => {
             <input
               type="file"
               id="gifFileInput"
-              onChange={(e) =>
-                setNewPost({
-                  ...newPost,
-                  media: e.target.files[0],
-                })
-              }
+              onChange={fileHandler}
               hidden
             />
             <svg
@@ -190,10 +185,9 @@ const NewPostPopup = ({ setCreateNewPost }) => {
           </span>
         </div>
         <button
-          className="text-white border-0 px-4 py-1"
-          style={{ backgroundColor: "rgb(255, 59, 48)" }}
+          className={`primary-bg  px-4 py-1 text-white border-0 outline-transparent ${newPost.content.length == 0 && "disabled"}`}
           onClick={postHandler}
-          disabled={newPost.content.length == 0}
+          disabled={newPost.content.length == 0 && newPost.media == null}
         >
           Post
         </button>

@@ -16,13 +16,26 @@ const NewPostSection = () => {
         media: null,
   });
 
-    const fileHandler = (e) => {
-      setNewPost({
+  const fileHandler = (e) => {
+       const file = e.target.files[0];
+       if (!file) return;
+  
+       if(file.size > 10 * 1024 * 1024) {
+          toast.error("File size exceeds 10 MB limit. Please select a smaller file.")
+          e.target.value = null; // reset the input
+          return;
+       }
+  
+       setNewPost({
         ...newPost,
         media: e.target.files[0],
-        });
+      });
+  
       toast.success(`${e.target.files[0].name} uploaded successfully.`)
+  
     };
+
+
 
     const postHandler = () => {
     const formData = new FormData();
@@ -67,6 +80,7 @@ const NewPostSection = () => {
                           type="file"
                           id="imageFileInput"
                           onChange={fileHandler}
+                          accept="image/*,video/*"
                           hidden
                         />
                         <i className="bi bi-card-image"></i>
@@ -75,12 +89,8 @@ const NewPostSection = () => {
                         <input
                           type="file"
                           id="gifFileInput"
-                          onChange={(e) =>
-                            setNewPost({
-                              ...newPost,
-                              media: e.target.files[0],
-                            })
-                          }
+                          onChange={fileHandler}
+                          accept="image/*,video/*"
                           hidden
                         />
                         <i className="bi bi-filetype-gif"></i>
@@ -90,9 +100,9 @@ const NewPostSection = () => {
                       </span>
                     </div>
                     <button
-                      className="primary-bg  px-4 py-1 text-white border-0 outline-transparent"
+                      className={`primary-bg  px-4 py-1 text-white border-0 outline-transparent ${newPost.content.length == 0 && "disabled"}`}
                       onClick={postHandler}
-                      disabled={newPost.content.length == 0}
+                      disabled={newPost.content.length == 0 && newPost.media == null}
                     >
                       Post
                     </button>

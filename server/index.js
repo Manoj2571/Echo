@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken')
 
 dotenv.config()
 
-const JWT_SECRET = 'echo_login_access_key'
+const JWT_SECRET = process.env.JWT_SECRET
 
 const app = express()
 const PORT = 8020
