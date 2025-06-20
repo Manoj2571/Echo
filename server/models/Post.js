@@ -43,24 +43,27 @@ postSchema.pre('validate', function (next) {
   next();
 });
 
-postSchema.post('findOneAndDelete', async function (post) {
-  if(!doc) return;
+postSchema.post('findOneAndDelete', async function (deletedPost) {
+  if (!deletedPost) return;
+
+  const postId = deletedPost._id;
 
   await User.updateMany(
-    {bookmarks: post._id}, {$pull: {bookmarks: post._id}}
-  )
+    { bookmarks: postId },
+    { $pull: { bookmarks: postId } }
+  );
 
   await mongoose.model('Post').updateMany(
-    { repost: doc._id },
+    { repost: postId },
     { $set: { repost: null } }
   );
 
   await mongoose.model('Post').updateMany(
-    { parentPostComment: doc._id },
+    { parentPostComment: postId },
     { $set: { parentPostComment: null } }
   );
-  
-})
+});
+
 
 module.exports = mongoose.model("Post", postSchema)
 

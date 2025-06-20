@@ -43,7 +43,7 @@ cd client && npm start
 
 ## Demo Video
 Watch a walkthrough (5–7 minutes) of all major features of this app:<br>
-[Demo Video Link](https://youtu.be/YgxmjTpi8vM)
+[Demo Video Link](https://youtu.be/YMSPKb6PY1c)
 
 ## Features
 
